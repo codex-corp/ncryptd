@@ -1,0 +1,11 @@
+# Created by .gitignore support plugin
+vendor
+dohttps://github.com/codex-corp/ncryptd.git
+app/views
+assets
+app/config
+workspace
+upload
+tmp
+projects
+.idea
