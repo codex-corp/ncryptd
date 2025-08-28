@@ -14,10 +14,10 @@ use App\Http\Controllers\Nand\MagicalHelpers;
 use Debugbar;
 use Response;
 use Session;
-use Input;
-//use Projects;
 use Redirect;
 use View;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends CpanelController
 {
@@ -61,31 +61,31 @@ class ProjectController extends CpanelController
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
 
-        $blenc = (Input::has('blenciT')) ? 1 : 0;
+        $blenc = ($request->has('blenciT')) ? 1 : 0;
 
-        if (Input::get('ciphers') == 'fw') $ciphers = 'laravel';
-        elseif (Input::get('ciphers') == 'none') $ciphers = 'none';
+        if ($request->get('ciphers') == 'fw') $ciphers = 'laravel';
+        elseif ($request->get('ciphers') == 'none') $ciphers = 'none';
         else $ciphers = false;
 
-        $class = (Input::has('ReplaceClasses')) ? 'classes' : '0';
-        $func = (Input::has('ReplaceFunctions')) ? 'functions' : '0';
-        $vars = (Input::has('ReplaceVariables')) ? 'vars' : '0';
+        $class = ($request->has('ReplaceClasses')) ? 'classes' : '0';
+        $func = ($request->has('ReplaceFunctions')) ? 'functions' : '0';
+        $vars = ($request->has('ReplaceVariables')) ? 'vars' : '0';
 
         $obfus = implode(",", array($class, $func, $vars));
 
         $project = Projects::create(array(
-            'title' => Input::get('project_title'),
-            'user_id' => \Sentry::getUser()->getId(),
+            'title' => $request->get('project_title'),
+            'user_id' => Auth::id(),
             'excluded' => (Session::has('excluded')) ? serialize(Session::get('excluded')) : false,
-            'files' => implode(",", Input::get('files')),
+            'files' => implode(",", $request->get('files')),
             'obfus' => $obfus,
             'blenc' => $blenc,
             'ciphers' => $ciphers,
-            'has_report' => (Input::get('PDF_Report') == 1) ? 1 : false,
-            'dl_folder' => current(Input::get('project_folder'))
+            'has_report' => ($request->get('PDF_Report') == 1) ? 1 : false,
+            'dl_folder' => current($request->get('project_folder'))
         ));
 
         $project->save();
@@ -139,14 +139,14 @@ class ProjectController extends CpanelController
     function analyze($FolderID = null, $FileID = null)
     {
 
-        $FolderID = (!is_null($FolderID)) ? $FolderID : Input::get('FolderID');
-        $FileID = (!is_null($FileID)) ? $FileID : Input::get('FileID');
+        $FolderID = (!is_null($FolderID)) ? $FolderID : request('FolderID');
+        $FileID = (!is_null($FileID)) ? $FileID : request('FileID');
 
         $data = $this->scan($FolderID, $FileID);
 
         $data['FileID'] = $FileID;
 
-        $data['FileKey'] = Input::get('FileKey');
+        $data['FileKey'] = request('FileKey');
 
         /**
          * {"classes":{
@@ -188,8 +188,8 @@ class ProjectController extends CpanelController
     function check()
     {
 
-        $data['FolderID'] = Input::get('FolderID');
-        $data['FileID'] = Input::get('FileID');
+        $data['FolderID'] = request('FolderID');
+        $data['FileID'] = request('FileID');
 
         $myfile = base_path() . "/tmp/" . $data['FolderID'] . "/" . $data['FileID'];
 
@@ -202,10 +202,10 @@ class ProjectController extends CpanelController
 
     function exclude()
     {
-        $data['exclude']['FileID'] = Input::get('FileID');
-        $data['exclude']['classes'] = Input::get('classes');
-        $data['exclude']['functions'] = Input::get('functions');
-        $data['exclude']['vars'] = Input::get('vars');
+        $data['exclude']['FileID'] = request('FileID');
+        $data['exclude']['classes'] = request('classes');
+        $data['exclude']['functions'] = request('functions');
+        $data['exclude']['vars'] = request('vars');
 
         $body = View::make('admin.project.exclude')->with($data)->render();
 
@@ -215,7 +215,7 @@ class ProjectController extends CpanelController
     function history()
     {
 
-        $data['projects'] = Projects::where('user_id', \Sentry::getUser()->getId())->get();
+        $data['projects'] = Projects::where('user_id', Auth::id())->get();
 
         Debugbar::info($data);
 

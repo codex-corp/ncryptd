@@ -24,8 +24,8 @@ namespace Controllers\Cpanel;
 use CpanelController;
 
 use Validator;
-use Input;
 use Redirect;
+use Illuminate\Http\Request;
 use ScubaClick\Pages\Models\Category;
 use ScubaClick\Pages\Models\Page;
 use View;
@@ -75,8 +75,8 @@ class PageController extends CpanelController {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
+        public function store(Request $request)
+        {
 
         // Declare the rules for the form validation
         $rules = array(
@@ -87,7 +87,7 @@ class PageController extends CpanelController {
         );
 
         // Create a new validator instance from our validation rules
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
         // If validation fails, we'll exit the operation now.
         if ($validator->fails())
@@ -98,18 +98,18 @@ class PageController extends CpanelController {
 
         try{
             $page = new Page(array(
-                'user_id'  => Input::get('user_id'),
-                'title' => Input::get('title'),
-                'content'  => Input::get('content'),
-                'status'  => Input::get('status'),
-                'slug'  => Input::get('slug'),
-                'static'  => Input::get('mode'),
-                'front'  => Input::get('front'),
-                'lang_id'  => Input::get('lang_id'),
-                'category_id'  => Input::get('category_id'),
-                'description'  => Input::get('description'),
-                'email_to'  => Input::get('email_to'),
-                'email_cc'  => Input::get('email_cc')
+                'user_id'  => $request->input('user_id'),
+                'title' => $request->input('title'),
+                'content'  => $request->input('content'),
+                'status'  => $request->input('status'),
+                'slug'  => $request->input('slug'),
+                'static'  => $request->input('mode'),
+                'front'  => $request->input('front'),
+                'lang_id'  => $request->input('lang_id'),
+                'category_id'  => $request->input('category_id'),
+                'description'  => $request->input('description'),
+                'email_to'  => $request->input('email_to'),
+                'email_cc'  => $request->input('email_cc')
             ));
 
             // And don't forget to save!
@@ -119,7 +119,7 @@ class PageController extends CpanelController {
 
         }
         return Redirect::to("admin/page")->with('flash_error', 'the page was added successfully');
-	}
+        }
 
 	/**
 	 * Display the specified resource.
@@ -158,28 +158,28 @@ class PageController extends CpanelController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
+        public function update(Request $request, $id)
+        {
         $page = Page::find($id);
 
-        $page->user_id = Input::get('user_id');
-        $page->title = Input::get('title');
-        $page->content = Input::get('content');
-        $page->status = Input::get('status');
-        $page->slug = Input::get('slug');
-        $page->lang_id = Input::get('lang_id');
-        $page->front =  Input::get('front');
-        $page->category_id = Input::get('category_id');
-        $page->description = Input::get('description');
-        $page->static = Input::get('mode');
-        $page->email_to = Input::get('email_to');
-        $page->email_cc =  Input::get('email_cc');
+        $page->user_id = $request->input('user_id');
+        $page->title = $request->input('title');
+        $page->content = $request->input('content');
+        $page->status = $request->input('status');
+        $page->slug = $request->input('slug');
+        $page->lang_id = $request->input('lang_id');
+        $page->front =  $request->input('front');
+        $page->category_id = $request->input('category_id');
+        $page->description = $request->input('description');
+        $page->static = $request->input('mode');
+        $page->email_to = $request->input('email_to');
+        $page->email_cc =  $request->input('email_cc');
 
         $page->update();
 
         return Redirect::back()->with('flash_error', 'the page was updated successfully');
 
-	}
+        }
 
 	/**
 	 * Remove the specified resource from storage.

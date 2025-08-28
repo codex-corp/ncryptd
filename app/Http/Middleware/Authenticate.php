@@ -2,7 +2,6 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Sentry;
 use Redirect;
 
 class Authenticate {
@@ -34,20 +33,18 @@ class Authenticate {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($this->auth->guest())
-		{
-			if ($request->ajax())
-			{
-				if (!Sentry::check())
-					return response('Unauthorized.', 401);
-			}
-			else
-			{
-				if (!Sentry::check())
-					// Redirect to the login page
-					return Redirect::route('signin');
-			}
-		}
+                if ($this->auth->guest())
+                {
+                        if ($request->ajax())
+                        {
+                                return response('Unauthorized.', 401);
+                        }
+                        else
+                        {
+                                // Redirect to the login page
+                                return Redirect::route('signin');
+                        }
+                }
 
 		return $next($request);
 	}

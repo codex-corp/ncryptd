@@ -34,7 +34,6 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-//		$users = \Sentry::findAllUsers();
 		$users = User::orderBy('id', 'DESC')->take(9)->get();
 
 		return view('index', compact('users'));

@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Sentry;
+use Illuminate\Support\Facades\Auth;
 use Redirect;
 
 class Cpanel
@@ -23,7 +23,7 @@ class Cpanel
         }
         else
         {
-            if (!Sentry::check())
+            if (!Auth::check())
             {
                 // Redirect to the login page
                 return Redirect::route('signin');

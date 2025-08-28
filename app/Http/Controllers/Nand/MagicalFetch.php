@@ -8,7 +8,6 @@
  */
 
 use Controllers\Obfuscator\ReportArraysTrait;
-use Input;
 
 class MagicalFetch
 {
@@ -56,8 +55,8 @@ class MagicalFetch
                 //extract class and assign it to class object
                 $this->class = $tokens[$i + 2]->content;
 
-                if(input::get('ReplaceClasses')){
-
+        if(request()->get('ReplaceClasses')){
+            
                     //extract class and assign it to class object
                     $this->class = $tokens[$i + 2]->content;
 
@@ -125,7 +124,7 @@ class MagicalFetch
              */
             elseif($tokens[$i]->is(T_FUNCTION)){
 
-                if( input::get('ReplaceFunctions') ){
+                if( request()->get('ReplaceFunctions') ){
 
                     //extract function and assign it to function object
                     $this->function = $tokens[$i+2]->content;
@@ -180,7 +179,7 @@ class MagicalFetch
             }
             elseif($tokens[$i]->is(T_VARIABLE)){
 
-                if(( input::get('ReplaceVariables') )){
+                if(( request()->get('ReplaceVariables') )){
                     //clear $ from var
                     $VarName = substr($tokens[$i]->content, 1);
 
@@ -256,7 +255,7 @@ class MagicalFetch
 
                 //check if the this string start with single quote
                 //if (preg_match('/^\'(.*)\'$/', $tokens[$i]->content)) {
-                if (preg_match('/\'.*(.*)\'/Uis', $tokens[$i]->content) && input::get('ReplaceEncode')) {
+                if (preg_match('/\'.*(.*)\'/Uis', $tokens[$i]->content) && request()->get('ReplaceEncode')) {
                     $clean_quote = trim($tokens[$i]->content,"'");
                     //endcode it and add double quote
                     $tokens[$i]->content = MagicalHelpers::random_encode("\"$clean_quote\"");
@@ -325,7 +324,7 @@ class MagicalFetch
         }
         $contents = $tokens;
 
-        if( Input::has('Analyze') ){
+        if( request()->has('Analyze') ){
             //echo '<pre>';
             //print_r(array_merge_recursive($this->_fullclasses,array('classes_exists' => $this->_classes)));
             //echo '</pre>';
@@ -349,10 +348,10 @@ class MagicalFetch
 
         $html .= MagicalHelpers::DisplayArray( $this->getFuncPack(), "Found functions that will be replaced", $BgColor="FFF0D0");
 
-        if(Input::has('ReplaceRoutes'))
+        if(request()->has('ReplaceRoutes'))
             $html .= MagicalHelpers::DisplayArray( $this->ClassArray, "Write New routes from replaced functions in classes", $BgColor="FFF0D0");
 
-        if(Input::has('ReplaceConstants'))
+        if(request()->has('ReplaceConstants'))
             $html .= MagicalHelpers::DisplayArray( $this->ConstArray, "Found constants that will be replaced", $BgColor="8DCFF4");
 
         ksort( $this->VarArray );

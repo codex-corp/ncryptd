@@ -7,14 +7,21 @@
  * @license The Ncryptd is open-sourced software licensed under the [MIT](http://opensource.org/licenses/MIT)
  */
 
-use Sentry;
 use Redirect;
-use Input;
 use OAuth;
 use Validator;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Request;
+use App\Auth\SsoAuth;
 
 class AuthController extends Controller {
+
+        protected $authService;
+
+        public function __construct(SsoAuth $authService)
+        {
+                $this->authService = $authService;
+        }
 
 	/**
 	 * Account sign in.
@@ -23,15 +30,12 @@ class AuthController extends Controller {
 	 */
 	public function getSignin(){
 
-//        $user = Sentry::findUserByLogin('hany.alsamman@gmail.com');
-//
-//        Sentry::login($user, false);
 
 		// Is the user logged in?
-		if (Sentry::check())
-		{
-			return Redirect::home();
-		}
+                if ($this->authService->check())
+                {
+                        return Redirect::home();
+                }
 
 		// Show the page
 		return view('frontend.auth.signin');
@@ -42,8 +46,8 @@ class AuthController extends Controller {
 	 *
 	 * @return Redirect
 	 */
-	public function postSignin()
-	{
+        public function postSignin(Request $request)
+        {
 
 //        $this->beforeFilter('csrf', array('on' => 'post'));
 
@@ -54,7 +58,7 @@ class AuthController extends Controller {
 		);
 
 		// Create a new validator instance from our validation rules
-		$validator = Validator::make(Input::all(), $rules);
+                $validator = Validator::make($request->all(), $rules);
 
 		// If validation fails, we'll exit the operation now.
 		if ($validator->fails())
@@ -66,7 +70,7 @@ class AuthController extends Controller {
                 try
                 {
                         // Try to log the user in
-                        $user = Sentry::authenticate(Input::only('email', 'password'), Input::get('remember-me', 0));
+                        $user = $this->authService->authenticate($request->only('email', 'password'), $request->get('remember-me', 0));
 
                         // Redirect to the users page
                         return Redirect::route('signin')->with('success', Lang::get('auth/message.signin.success'));
@@ -87,15 +91,15 @@ class AuthController extends Controller {
 	public function getLogout()
 	{
 		// Log the user out
-		Sentry::logout();
+                $this->authService->logout();
 
 		// Redirect to the users page
 		return Redirect::route('home')->with('flash_error', 'Good Bye !');
 	}
 
-    public function loginWithLinkedin() {
+    public function loginWithLinkedin(Request $request) {
         // get data from input
-        $code = Input::get( 'code' );
+        $code = $request->get( 'code' );
 
         $linkedinService = OAuth::consumer('Linkedin');
 
@@ -107,17 +111,17 @@ class AuthController extends Controller {
             $result = json_decode($linkedinService->request('/people/~:(id,first-name,last-name,headline,member-url-resources,picture-urls::(original),location,public-profile-url,email-address)?format=json'), true);
 
             if(!empty($token)){
-                $user = Sentry::findUserByLogin($result['emailAddress']);
+                $user = $this->authService->findUserByLogin($result['emailAddress']);
 
                 if ($user) {
                     // Log the user in
-                    Sentry::login($user, false);
+                    $this->authService->login($user, false);
 
                     return Redirect::route('home');
                 }
 
                 // Register the user
-                $user = Sentry::register(array(
+                $user = $this->authService->register(array(
                     'activated' =>  1,
                     'email'      => $result['emailAddress'],
                     'password'   => uniqid(time()),
@@ -127,7 +131,7 @@ class AuthController extends Controller {
                     'country'   => $result['location']['name']
                 ));
 
-                Sentry::login($user, false);
+                $this->authService->login($user, false);
 
                 return Redirect::route('account');
             }
@@ -141,9 +145,9 @@ class AuthController extends Controller {
         }
     }
 
-    public function loginWithGithub() {
+    public function loginWithGithub(Request $request) {
         // get data from input
-        $code = Input::get( 'code' );
+        $code = $request->get( 'code' );
 
         $GitHubService = OAuth::consumer('GitHub');
 
@@ -156,16 +160,16 @@ class AuthController extends Controller {
 
             if(!empty($token)){
 
-                $user = Sentry::findUserByLogin($result['email']);
+                $user = $this->authService->findUserByLogin($result['email']);
 
                 if ($user) {
-                    Sentry::login($user, false);
+                    $this->authService->login($user, false);
 
                     return Redirect::route('home');
                 }
 
                 // Register the user
-                $user = Sentry::register(array(
+                $user = $this->authService->register(array(
                     'activated' =>  1,
                     'email'      => $result['email'],
                     'password'   => uniqid(time()),
@@ -174,7 +178,7 @@ class AuthController extends Controller {
                     'country'   => (!empty($result['location'])) ? $result['location'] : false
                 ));
 
-                Sentry::login($user, false);
+                $this->authService->login($user, false);
 
                 return Redirect::route('account');
 
@@ -190,10 +194,10 @@ class AuthController extends Controller {
         }
     }
 
-    public function loginWithGoogle() {
+    public function loginWithGoogle(Request $request) {
 
         // get data from input
-        $code = Input::get( 'code' );
+        $code = $request->get( 'code' );
 
         // get google service
         $googleService = OAuth::consumer( 'Google' );
@@ -211,16 +215,16 @@ class AuthController extends Controller {
 
             if(!empty($token)){
 
-                $user = Sentry::findUserByLogin($result['email']);
+                $user = $this->authService->findUserByLogin($result['email']);
 
                 if ($user) {
-                    Sentry::login($user, false);
+                    $this->authService->login($user, false);
 
                     return Redirect::route('home');
                 }
 
                 // Register the user
-                $user = Sentry::register(array(
+                $user = $this->authService->register(array(
                     'activated' =>  1,
                     'email'      => $result['email'],
                     'password'   => uniqid(time()),
@@ -229,7 +233,7 @@ class AuthController extends Controller {
                     'country'   => (!empty($result['location'])) ? $result['location'] : false
                 ));
 
-                Sentry::login($user, false);
+                $this->authService->login($user, false);
 
                 return Redirect::route('account');
 

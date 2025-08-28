@@ -18,7 +18,6 @@ use PhpParser\NodeDumper;
 use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard as PrettyPrinter;
 use PhpParser\NodeTraverser;
-use input;
 
 /**
  * Obfuscator
@@ -67,7 +66,7 @@ class Obfuscator extends MagicalController
 
         $traverser = new NodeTraverser;
 
-        if (input::get('ReplaceVariables')) {
+        if (request()->get('ReplaceVariables')) {
             /**
              * all $vars
              */
@@ -76,7 +75,7 @@ class Obfuscator extends MagicalController
             $traverser->addVisitor(new ScrambleString($this));
         }
 
-        if (input::get('ReplaceFunctions')) {
+        if (request()->get('ReplaceFunctions')) {
             /**
              * all OOP functions
              */
@@ -88,14 +87,14 @@ class Obfuscator extends MagicalController
             $traverser->addVisitor(new ScrambleNativeFunction($this));
         }
 
-        if (input::get('ReplaceVariables')) {
+        if (request()->get('ReplaceVariables')) {
             /**
              * all OOP $this->vars
              */
             $traverser->addVisitor(new ScrambleProperty($this));
         }
 
-        //if( input::get('ReplaceSmart') ) {
+        //if( request()->get('ReplaceSmart') ) {
         //$traverser->addVisitor(new \Controllers\Obfuscator\ScrambleSmart($this));
         //}
 
@@ -113,7 +112,7 @@ class Obfuscator extends MagicalController
         // pretty print
         $code = "<?php\n" . $prettyPrinter->prettyPrint($stmts);
 
-        if (Input::has('test')) {
+        if (request()->has('test')) {
             @header("Content-Type:text/plain");
             print_r($this->getFuncPack());
             print_r($this->getVarPack());
