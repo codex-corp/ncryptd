@@ -27,7 +27,7 @@ class ProjectController extends CpanelController
      */
     public function __construct()
     {
-        $this->beforeFilter('auth');
+        $this->middleware('auth');
     }
 
     /**

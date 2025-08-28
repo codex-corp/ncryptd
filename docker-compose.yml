@@ -29,7 +29,7 @@ services:
       - db_data:/var/lib/mysql
 
   composer:
-    image: composer:1.10
+    image: composer:2
     volumes:
       - .:/app
     command: install
