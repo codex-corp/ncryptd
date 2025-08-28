@@ -3,6 +3,8 @@
 namespace App\Auth;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\AuthenticationException;
 use App\User;
 
 class SsoAuth
@@ -19,7 +21,18 @@ class SsoAuth
 
     public function authenticate(array $credentials, $remember = false)
     {
-        return Auth::attempt($credentials, $remember);
+        if (!Auth::attempt($credentials, $remember)) {
+            throw new AuthenticationException('Invalid credentials');
+        }
+
+        return Auth::user();
+    }
+
+    public function login(User $user, $remember = false)
+    {
+        Auth::login($user, $remember);
+
+        return $user;
     }
 
     public function logout()
@@ -40,6 +53,9 @@ class SsoAuth
 
     public function register(array $data)
     {
+        $data['password'] = Hash::make($data['password']);
+        $data['is_superuser'] = $data['is_superuser'] ?? false;
+
         return User::create($data);
     }
 
