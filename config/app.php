@@ -155,7 +155,7 @@ return [
 		Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 		Barryvdh\DomPDF\ServiceProvider::class,
         'Artdarek\OAuth\OAuthServiceProvider',
-        'Cartalyst\Sentry\SentryServiceProvider',
+        'App\Providers\SentryServiceProvider',
 		'Chumper\Zipper\ZipperServiceProvider',
 	],
 
@@ -208,7 +208,7 @@ return [
 		'Debugbar' => 'Barryvdh\Debugbar\Facade',
 		'PDF' => 'Barryvdh\DomPDF\Facade',
         'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
-        'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
+        'Sentry' => 'App\Facades\Sentry',
 		'Zipper' => 'Chumper\Zipper\Zipper'
 	],
 

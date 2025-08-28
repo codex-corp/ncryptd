@@ -6,7 +6,6 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "5.1.*",
-		"cartalyst/sentry": "dev-feature/laravel-5",
 		"illuminate/html": "~5.0",
 		"barryvdh/laravel-debugbar": "^2.0",
 		"barryvdh/laravel-dompdf": "0.6.*",
@@ -49,13 +48,9 @@
 		]
 	},
 	"config": {
-		"preferred-install": "dist"
-	},
-	"respositories": [
-    {
-        "type": "git",
-        "url": "https://github.com/cartalyst/sentry"
-    }
-	]
-	
+		"preferred-install": "dist",
+		"allow-plugins": {
+			"kylekatarnls/update-helper": true
+		}
+	}	
 }
