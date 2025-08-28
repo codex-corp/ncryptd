@@ -1,0 +1,56 @@
+// Global values
+// --------------------------------------------------
+$base-background-color: #1B1E24;
+$base-color: #55606e;
+$base-font-family: 'Open Sans';
+
+$dark : #333;
+$medium : #222;
+$light : #111;
+
+
+// Colors
+$color-white: #ffffff;
+$color-dark : #1B1E24;
+$color-green: #0aa699;
+$color-green-dark: $color-green - $dark;
+$color-blue: #00acec;
+$color-yellow: #FDD01C ;
+$color-red: #f35958;
+$color-grey: #8b91a0;
+$color-black: #1b1e24;
+$color-purple: #852b99;
+
+// Body
+$body-background: $base-background-color;
+$body-color: #6f7b8a;
+$body-font-family : $base-font-family;
+$body-font-size : 13px;
+
+
+// Theme Color  
+$color-primary: #0aa699;
+$color-primary-hover: $color-primary - #111;
+$font-color-primary: $color-white;
+
+$color-success: #0aa699;
+$color-success-mask: #f3faf8;
+$font-color-success: $color-white;
+
+$color-danger: #F35958;
+$color-danger-mask: #fff6f4;
+$font-color-danger: $color-white;
+
+$color-warning: #FDD01C;
+$color-warning-mask: #fffcee;
+$font-color-warning: $color-dark ;
+
+$color-info: #0090D9;
+$color-info-mask: #ebf6fb;
+$font-color-info: $color-white;
+
+$color-dark: $base-background-color;
+$font-color-dark: $color-white;
+
+$color-important: $color-danger;
+$font-color-important: $font-color-danger;

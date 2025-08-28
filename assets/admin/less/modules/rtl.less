@@ -1,0 +1,19 @@
+body{
+	&.rtl{
+	.breadcrumb {
+		    & > li {
+		        & + li {
+		            &:before {
+		            	display: none
+		            }
+		            &:after {
+		                padding: 0 5px;
+		                color: #515050;
+		                font-family: FontAwesome;
+		                content: "\f104";
+		            }
+		        }
+		    }
+		}
+	}
+}

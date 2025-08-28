@@ -1,0 +1,411 @@
+.mydevice {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    position: relative;
+}
+.mydevice.device-browser .device-content {
+    border-radius: 0 0 10px 10px;
+    max-height: 400px;
+}
+.mydevice.device-browser:before {
+    background-color: #ddd;
+    border-radius: 10px 10px 0 0;
+    content: "";
+    display: block;
+    height: 30px;
+    position: relative;
+    width: 100%;
+}
+.mydevice.device-browser.dark:before {
+    background-color: #374f59;
+}
+.mydevice.device-browser .device-details, .mydevice.device-browser .device-details:after, .mydevice.device-browser .device-details:before {
+    background-color: #3c4e5a;
+    border-radius: 50%;
+    display: block;
+    height: 10px;
+    left: 10px;
+    position: absolute;
+    top: 10px;
+    width: 10px;
+    z-index: 10;
+}
+.mydevice.device-browser.dark .device-details {
+    background-color: #fff;
+}
+.mydevice.device-browser .device-details:after, .mydevice.device-browser .device-details:before {
+    background-color: #3887be;
+    content: "";
+    left: 20px;
+    top: 0;
+}
+.mydevice.device-browser .device-details:before {
+    background-color: #8a8acb;
+    left: 40px;
+}
+.mydevice.device-desktop {
+    border-color: #374f59;
+    border-left: 20px solid #374f59;
+    border-radius: 10px 10px 0 0;
+    border-right: 20px solid #374f59;
+    border-style: solid;
+    border-width: 20px 20px 10px;
+    margin-bottom: 100px;
+}
+.mydevice.device-desktop .device-content {
+    max-height: 500px;
+}
+.mydevice.device-desktop:after {
+    background-color: #ddd;
+    border-radius: 0 0 15px 15px;
+    bottom: -40px;
+    content: "";
+    display: block;
+    height: 40px;
+    left: -20px;
+    position: absolute;
+    right: -20px;
+}
+.mydevice.device-desktop:before {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    bottom: -28px;
+    content: "";
+    display: block;
+    height: 20px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    width: 20px;
+    z-index: 10;
+}
+.mydevice.device-desktop .device-details {
+    border-bottom: 60px solid #ddd;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    bottom: -100px;
+    height: 0;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    width: 33.3333%;
+}
+.mydevice.device-desktop .device-details:before {
+    border-bottom: 20px solid #ccc;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    content: "";
+    display: block;
+    height: 0;
+    left: -3px;
+    position: absolute;
+    right: -3px;
+    top: 0;
+}
+.mydevice.device-desktop .device-details:after {
+    background-color: #ddd;
+    border-radius: 5px;
+    border-top: 5px solid rgba(255, 255, 255, 0.5);
+    bottom: -70px;
+    content: "";
+    display: block;
+    height: 10px;
+    left: -25px;
+    position: absolute;
+    right: -25px;
+}
+.mydevice.device-tablet-v {
+    border-color: #374f59;
+    border-left: 20px solid #374f59;
+    border-radius: 20px;
+    border-right: 20px solid #374f59;
+    border-style: solid;
+    border-width: 60px 20px;
+}
+.mydevice.device-tablet-v .device-content {
+    max-height: 500px;
+}
+.mydevice.device-tablet-v:before, .mydevice.device-tablet-v:after {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 10px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: -35px;
+    width: 10px;
+    z-index: 10;
+}
+.mydevice.device-tablet-v:after {
+    bottom: -45px;
+    height: 30px;
+    top: auto;
+    width: 30px;
+}
+.mydevice.device-tablet-h {
+    border-color: #374f59;
+    border-left: 60px solid #374f59;
+    border-radius: 20px;
+    border-right: 40px solid #374f59;
+    border-style: solid;
+    border-width: 20px 40px 20px 60px;
+}
+.mydevice.device-tablet-h .device-content {
+    max-height: 800px;
+}
+.mydevice.device-tablet-h:before, .mydevice.device-tablet-h:after {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 10px;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    width: 10px;
+    z-index: 10;
+}
+.mydevice.device-tablet-h:after {
+    height: 30px;
+    left: -45px;
+    top: 50%;
+    width: 30px;
+}
+.mydevice.device-tablet-h:before {
+    right: -23px;
+    top: 50%;
+}
+.mydevice.device-phone-v {
+    border-color: #374f59;
+    border-left: 25px solid #374f59;
+    border-radius: 30px;
+    border-right: 25px solid #374f59;
+    border-style: solid;
+    border-width: 70px 25px;
+}
+.mydevice.device-phone-v .device-content {
+    max-height: 400px;
+}
+.mydevice.device-phone-v:before, .mydevice.device-phone-v:after {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 10px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: -35px;
+    width: 10px;
+    z-index: 10;
+}
+.mydevice.device-phone-v:after {
+    bottom: -50px;
+    height: 30px;
+    top: auto;
+    width: 30px;
+}
+.mydevice.device-phone-android {
+    border-bottom: 50px solid #dddddd;
+    border-radius: 30px;
+    border-top: 50px solid #dddddd;
+}
+.mydevice.device-phone-android .device-content {
+    max-height: 400px;
+}
+.mydevice.device-phone-android:after, .mydevice.device-phone-android:before {
+    border-bottom: 5px dotted rgba(0, 0, 0, 0.25);
+    content: "";
+    display: block;
+    left: 20px;
+    margin: auto;
+    position: absolute;
+    right: 20px;
+    width: auto;
+    z-index: 10;
+}
+.mydevice.device-phone-android:before {
+    right: 50px;
+    top: -25px;
+}
+.mydevice.device-phone-android:after {
+    bottom: -25px;
+}
+.mydevice.device-phone-android .device-details {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    display: block;
+    height: 15px;
+    margin: auto;
+    position: absolute;
+    right: 20px;
+    top: -30px;
+    width: 15px;
+    z-index: 10;
+}
+.on-linux, #darwin:target ~ * .on-win32 {
+    transform: translateX(101%);
+}
+.on-darwin, .on-win32 {
+    transform: translateX(-101%);
+}
+#linux:target ~ * .on-linux, #win32:target ~ * .on-win32, #darwin:target ~ * .on-darwin {
+    transform: translateX(0%);
+}
+:hover > .offcanvas-left-onhover {
+    transform: translateX(-101%);
+}
+:hover > .offcanvas-right-onhover {
+    transform: translateX(101%);
+}
+
+
+
+.services .col {
+    margin-bottom: 2em;
+}
+.services .col header {
+    position: relative;
+    text-align: center;
+}
+.services h3 {
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1.125em;
+    padding-bottom: 0.5em;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+}
+.services h3:before {
+    content: "";
+    display: block;
+    margin: 0 auto 15px;
+    transform: rotateY(0deg);
+    transform-style: preserve-3d;
+    transition: all 0.3s ease-in-out 0s;
+    vertical-align: middle;
+    width: 80px;
+}
+@media screen and (min-width: 992px) {
+    .services h3 {
+        padding-left: 90px;
+        text-align: left;
+    }
+    .services h3 span {
+        display: block !important;
+        text-align: left;
+    }
+    .services h3:before {
+        content: "";
+        display: block;
+        left: 0;
+        position: absolute;
+        top: 0;
+        transform: rotateY(0deg);
+        transform-style: preserve-3d;
+        transition: all 0.3s ease-in-out 0s;
+        vertical-align: middle;
+        width: 80px;
+    }
+}
+.services .col:hover h3:before {
+    transform: rotateY(180deg);
+}
+.services p {
+    margin: 0 0 1em;
+    text-align: center;
+}
+#h3-dev:before {
+    content: url("http://www.jasonkilp.com/img/icon-dev.svg");
+    height: 45px;
+    margin-bottom: 21px;
+    margin-top: 10px;
+    width: 70.916px;
+}
+@media screen and (min-width: 992px) {
+    #h3-dev {
+        padding-left: 90px;
+    }
+    #h3-dev:before {
+        margin-bottom: 0;
+        margin-top: -30px;
+        top: 50%;
+    }
+}
+.lt-ie9 #h3-dev:before {
+    content: url("http://www.jasonkilp.com/img/icon-dev.png");
+}
+#h3-responsive:before {
+    content: url("http://www.jasonkilp.com/img/icon-mobile.svg");
+    height: 61px;
+    width: 44.129px;
+}
+@media screen and (min-width: 992px) {
+    #h3-responsive {
+        padding-left: 64px;
+    }
+}
+.lt-ie9 #h3-responsive:before {
+    content: url("http://www.jasonkilp.com/img/icon-mobile.png");
+}
+#h3-ui:before {
+    content: url("http://www.jasonkilp.com/img/icon-ui.svg");
+    height: 61px;
+    width: 61px;
+}
+@media screen and (min-width: 992px) {
+    #h3-ui {
+        padding-left: 81px;
+    }
+}
+.lt-ie9 #h3-ui:before {
+    content: url("http://www.jasonkilp.com/img/icon-ui.png");
+}
+#h3-brand:before {
+    content: url("http://www.jasonkilp.com/img/icon-brand.svg");
+    height: 61px;
+    width: 64.069px;
+}
+@media screen and (min-width: 992px) {
+    #h3-brand {
+        padding-left: 84px;
+    }
+}
+.lt-ie9 #h3-brand:before {
+    content: url("http://www.jasonkilp.com/img/icon-brand.svg");
+}
+#h3-concept:before {
+    content: url("http://www.jasonkilp.com/img/icon-concept.svg");
+    height: 61px;
+    width: 40px;
+}
+@media screen and (min-width: 992px) {
+    #h3-concept {
+        padding-left: 60px;
+    }
+}
+.lt-ie9 #h3-concept:before {
+    content: url("http://www.jasonkilp.com/img/icon-concept.png");
+}
+#h3-seo:before {
+    content: url("http://www.jasonkilp.com/img/icon-seo.svg");
+    height: 61px;
+    width: 56.008px;
+}
+@media screen and (min-width: 992px) {
+    #h3-seo {
+        padding-left: 76px;
+    }
+}
+.lt-ie9 #h3-seo:before {
+    content: url("http://www.jasonkilp.com/img/icon-seo.png");
+}

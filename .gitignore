@@ -1,0 +1,15 @@
+/vendor
+/node_module
+/bower_components
+/node_modules
+/public/storage
+/public/hot
+/storage/*.key
+/storage/logs/*.log
+/.idea
+_ide_helper.php
+.phpstorm.meta.php
+.env
+composer.phar
+google68f32dc88c2c8db5.html
+
