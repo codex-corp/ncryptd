@@ -46,7 +46,7 @@
                 <div class="widget-header">
                     <h4><i class="fontello-icon-user"></i>
                         Add by
-                        <small>{{ Sentry::getUser()->first_name }}</small>
+                        <small>{{ auth()->user()->first_name }}</small>
                     </h4>
                 </div>
                 <div class="widget-content">
@@ -167,7 +167,7 @@
                                         </ul>
                                     </fieldset>
                                     <!-- the following field does the trick -->
-                                    <input type="hidden" name="user_id" value="{{ Sentry::getUser()->id }}">
+                                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                                     <input type="hidden" name="created_at" value="">
 
                                     <!-- // fieldset Input -->

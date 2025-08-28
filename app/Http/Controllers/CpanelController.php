@@ -7,9 +7,9 @@
  * @license The Ncryptd is open-sourced software licensed under the [MIT](http://opensource.org/licenses/MIT)
  */
 
-use Sentry;
 use Redirect;
 use OAuth;
+use Illuminate\Support\Facades\Auth;
 
 class CpanelController extends Controller
 {
@@ -21,7 +21,7 @@ class CpanelController extends Controller
     public function __construct()
     {
         //$this->beforeFilter('csrf', array('on' => 'post'));
-        if (!Sentry::check()){
+        if (!Auth::check()){
             // Apply the auth filter
             $this->middleware('auth');
         }
@@ -31,9 +31,9 @@ class CpanelController extends Controller
     {
 
         // Find the user using the user id
-        //$user = Sentry::findUserByLogin('hany@codexc.com');
+        //$user = Auth::user();
         // Log the user in
-        //Sentry::login($user, false);
+        //Auth::login($user, false);
 
         //$data['users'] = DB::table("users")->where('activated', 1)->count('id');
 

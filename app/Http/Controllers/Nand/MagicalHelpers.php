@@ -9,7 +9,7 @@
 
 use Alchemy\Zippy\Zippy;
 use App\Http\Controllers\MagicalController;
-use Input;
+use Illuminate\Http\Request;
 
 class MagicalHelpers extends MagicalController
 {
@@ -63,7 +63,7 @@ class MagicalHelpers extends MagicalController
     /**
      * @return string
      */
-    public function postUpload(){
+    public function postUpload(Request $request){
 
 //        $this->middleware('csrf', ['on' => 'post']);
 
@@ -77,11 +77,11 @@ class MagicalHelpers extends MagicalController
 
         $destinationPath = base_path(). '/' . "tmp" . '/'. $folder .'/';
 
-        if(Input::hasFile('myfile')){
+        if($request->hasFile('myfile')){
 
             $upload = array();
 
-            $file = Input::file('myfile'); // your file upload input field in the form should be named 'file'
+            $file = $request->file('myfile'); // your file upload input field in the form should be named 'file'
 
             if(is_array($file))
             {

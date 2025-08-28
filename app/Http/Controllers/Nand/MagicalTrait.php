@@ -91,7 +91,7 @@ trait MagicalTrait
     function __construct()
     {
 
-        $this->CopyrightText = str_replace("\r", "", trim(Input::get('CopyrightText')));
+        $this->CopyrightText = str_replace("\r", "", trim(request('CopyrightText')));
         $this->StartTime = time();
 
         /**
@@ -217,7 +217,7 @@ trait MagicalTrait
      */
     public static function setExcluded()
     {
-        $excluded = json_decode(Input::get('excluded'), true);
+        $excluded = json_decode(request('excluded'), true);
 
         if (Session::has('excluded')) {
             if (is_array($excluded) && sizeof($excluded) > 0) {

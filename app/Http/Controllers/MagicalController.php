@@ -13,7 +13,6 @@ use App\Http\Controllers\Nand\MagicalCompactor;
 use App\Http\Controllers\Nand\MagicalHelpers;
 use App\Http\Controllers\Nand\MagicalFetch;
 use App\Http\Controllers\Nand\PhpObfuscator;
-use Input;
 
 class MagicalController extends Controller
 {
@@ -50,9 +49,9 @@ class MagicalController extends Controller
 
         $this->MagicFetch = new MagicalFetch();
 
-        if (Input::has("project_folder")) {
+        if (request()->has("project_folder")) {
 
-            $getfolderID = Input::get("project_folder");
+            $getfolderID = request()->get("project_folder");
 
             reset($getfolderID);
 
@@ -102,21 +101,21 @@ class MagicalController extends Controller
 
         $data['html'] .= $this->MagicFetch->ShowArrays();
 
-        if (Input::get('ciphers') == 'fw') {
+        if (request()->get('ciphers') == 'fw') {
             $this->CiphersLaravel();
-        } elseif (Input::get('ciphers') == 'none') {
+        } elseif (request()->get('ciphers') == 'none') {
             $this->CiphersNonFW();
         }
 
-        if (Input::has('blenciT')) {
+        if (request()->has('blenciT')) {
             $data['blenc_report'] = $this->BLENCiT();
 
-            if (Input::has('BLENC_Report') && Input::get('BLENC_Report') == 1) {
+            if (request()->has('BLENC_Report') && request()->get('BLENC_Report') == 1) {
                 \PDF::loadHTML($data['blenc_report'])->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->save(TARGET_DIR . '/blenc/blenc_report.pdf');
             }
         }
 
-        if (Input::has('PDF_Report') && Input::get('PDF_Report') == 1) {
+        if (request()->has('PDF_Report') && request()->get('PDF_Report') == 1) {
             \PDF::loadHTML($data['html'])->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->save(TARGET_DIR . '/guide.pdf');
         }
 
@@ -201,11 +200,11 @@ class MagicalController extends Controller
 
                         copy(SOURCE_DIR . $fileName, TARGET_DIR . $fileName);
                     }
-                } elseif (Input::get('CopyAllFiles')) {
+                } elseif (request()->get('CopyAllFiles')) {
                     $html .= "- Copy Filename: " . substr($fileName, 1) . "<br>\n";
                     copy(SOURCE_DIR . $fileName, TARGET_DIR . $fileName);
                 }
-            } else if (Input::get('RecursiveScan') && is_dir(SOURCE_DIR . $fileName) && $FileNaam != "." && $FileNaam != "..") {
+            } else if (request()->get('RecursiveScan') && is_dir(SOURCE_DIR . $fileName) && $FileNaam != "." && $FileNaam != "..") {
 
                 $html .= "<font color=blue>+ Add All Sub Directory in " . SOURCE_DIR . " to queue!</font><br>";
 
@@ -326,7 +325,7 @@ class MagicalController extends Controller
         $this->TotalFileSizeRead += filesize($FileRead);
         fclose($FdRead);
 
-        $ch = new \CommentHandler(Input::get('KeptCommentCount'));
+        $ch = new \CommentHandler(request()->get('KeptCommentCount'));
 
         // we have to process comments in any case
         $ch->RemoveComments($contents);
@@ -334,7 +333,7 @@ class MagicalController extends Controller
         $contents = preg_replace("/[\r\n]{2,}/m", "\n", $contents); // REMOVE EMPTY LINES AND DOS "\r\n"
         $contents = preg_replace("/[ \t]{2,}/m", ' ', $contents); // REMOVE TOO MANY SPACE OR TABS (but also in output text...)
 
-        if (Input::get('RemoveIndents')) {
+        if (request()->get('RemoveIndents')) {
             $contents = preg_replace("/([;\}]{1})\n[ \t]*/m", "\\1\n", $contents);  // REMOVE INDENT TABS and SPACES
             //$contents =  preg_replace('~[\r\n]+~', "\r\n", $contents); // REMOVE EMPTY LINE
         }
@@ -345,15 +344,15 @@ class MagicalController extends Controller
         //restore the first $KeptCommentCount comments
         $ch->RestoreComments($contents);
 
-        if (Input::get('KeptCommentCount') > 0) {
-            $ch->SetKeepFirst(Input::get('KeptCommentCount'));
+        if (request()->get('KeptCommentCount') > 0) {
+            $ch->SetKeepFirst(request()->get('KeptCommentCount'));
 
         } else {
             //restore the first $KeptCommentCount comments
             $ch->SetKeepFirst(9999);
         }
 
-        if (Input::has('ConcatenateLines') && Input::get('ConcatenateLines')) {
+        if (request()->has('ConcatenateLines') && request()->get('ConcatenateLines')) {
             $contents = preg_replace('/\n/sme', "___HANY_NEWLINE___", $contents);
             $contents = MagicalHelpers::Concatenate($contents);
         }
@@ -366,11 +365,11 @@ class MagicalController extends Controller
         }
 
         // now add copyright text
-        if (Input::get('CopyrightPHP') == 1 && in_array($Suffix, $this->FileExtArray)) {
-            $contents = MagicalHelpers::AddCopyRight($contents, Input::get('CopyrightText'));
+        if (request()->get('CopyrightPHP') == 1 && in_array($Suffix, $this->FileExtArray)) {
+            $contents = MagicalHelpers::AddCopyRight($contents, request()->get('CopyrightText'));
         }
 
-        if (Input::get('ReplaceRoutes') && is_file(SOURCE_DIR . "/routes.php")) {
+        if (request()->get('ReplaceRoutes') && is_file(SOURCE_DIR . "/routes.php")) {
             $mycontent = file_get_contents(SOURCE_DIR . "/routes.php");
             foreach ($this->_classes as $class) {
                 //[postUpload] => F61a80a71
@@ -389,7 +388,7 @@ class MagicalController extends Controller
             unset($mycontent);
         }
 
-        if (Input::get('compact_code') == 1) {
+        if (request()->get('compact_code') == 1) {
             $compactor = new MagicalCompactor();
             $contents = $compactor->compact($contents);
         }
@@ -403,8 +402,8 @@ class MagicalController extends Controller
 
         $files = MagicalHelpers::findit('*.{php}', GLOB_BRACE, TARGET_DIR . '/');
 
-        if (Input::has('cipher_key'))
-            $unencrypted_key = Input::get('cipher_key');
+        if (request()->has('cipher_key'))
+            $unencrypted_key = request()->get('cipher_key');
         else
             $unencrypted_key = md5(time()); //$key = md5(time());
 
@@ -447,8 +446,8 @@ class MagicalController extends Controller
 
         $files = MagicalHelpers::findit('*.{php}', GLOB_BRACE, TARGET_DIR . '/');
 
-        if (Input::has('cipher_key'))
-            $unencrypted_key = Input::get('cipher_key');
+        if (request()->has('cipher_key'))
+            $unencrypted_key = request()->get('cipher_key');
         else
             $unencrypted_key = md5(time()); //$key = md5(time());
 
@@ -495,8 +494,8 @@ class MagicalController extends Controller
          * blenc.key
          * @link http://giuseppechiesa.it/_dropplets/php-blenc-quick-start-guide
          */
-        if (Input::has('unencrypted_key'))
-            $unencrypted_key = Input::get('unencrypted_key');
+        if (request()->has('unencrypted_key'))
+            $unencrypted_key = request()->get('unencrypted_key');
         else
             $unencrypted_key = md5(time()); //$key = md5(time());
 

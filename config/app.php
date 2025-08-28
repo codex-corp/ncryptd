@@ -155,8 +155,7 @@ return [
 		Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 		Barryvdh\DomPDF\ServiceProvider::class,
         'Artdarek\OAuth\OAuthServiceProvider',
-        'App\Providers\SentryServiceProvider',
-		'Chumper\Zipper\ZipperServiceProvider',
+                'Chumper\Zipper\ZipperServiceProvider',
 	],
 
 	/*
@@ -186,7 +185,6 @@ return [
 		'Event'     => 'Illuminate\Support\Facades\Event',
 		'File'      => 'Illuminate\Support\Facades\File',
 		'Hash'      => 'Illuminate\Support\Facades\Hash',
-		'Input'     => 'Illuminate\Support\Facades\Input',
 		'Inspiring' => 'Illuminate\Foundation\Inspiring',
 		'Lang'      => 'Illuminate\Support\Facades\Lang',
 		'Log'       => 'Illuminate\Support\Facades\Log',
@@ -208,8 +206,7 @@ return [
 		'Debugbar' => 'Barryvdh\Debugbar\Facade',
 		'PDF' => 'Barryvdh\DomPDF\Facade',
         'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
-        'Sentry' => 'App\Facades\Sentry',
-		'Zipper' => 'Chumper\Zipper\Zipper'
-	],
+                'Zipper' => 'Chumper\Zipper\Zipper'
+        ],
 
 ];

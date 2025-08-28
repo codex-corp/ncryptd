@@ -10,10 +10,9 @@ namespace Controllers\Cpanel;
 
 use CpanelController;
 
-use Input;
 use Tzookb\TBMsg\Facade\TBMsg;
 use Debugbar;
-use Sentry;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends CpanelController {
 
@@ -33,23 +32,23 @@ class ChatController extends CpanelController {
      */
     public function getUserConversation()
     {
-        $user_id = Input::get('user_id'); //between this user id
-        $limit = Input::get('limit'); //between this user id
+        $user_id = request('user_id'); //between this user id
+        $limit = request('limit'); //between this user id
 
-        $conv_id = TBMsg::getConversationByTwoUsers($user_id, Sentry::getUser()->getId());
+        $conv_id = TBMsg::getConversationByTwoUsers($user_id, Auth::id());
 
         //Get the conversation id of two users
         $result = TBMsg::getConversationMessages($conv_id, $user_id, $limit);
 
-        TBMsg::markReadAllMessagesInConversation($conv_id, Sentry::getUser()->getId(), $user_id);
+        TBMsg::markReadAllMessagesInConversation($conv_id, Auth::id(), $user_id);
 
         return (!empty($result)) ? json_encode($result) : json_encode(array("error" => 'empty'));
     }
 
     public function addMessageToConversation(){
 
-        $user_id = Input::get('user_id'); //send to user id
-        $msg = \Purifier::clean(Input::get('msg'));
+        $user_id = request('user_id'); //send to user id
+        $msg = \Purifier::clean(request('msg'));
         $status = 0;
 
         if(!empty($msg)){
@@ -57,7 +56,7 @@ class ChatController extends CpanelController {
              * $senderId, $receiverId, $content
              * return @boolean
              */
-            $status = TBMsg::sendMessageBetweenTwoUsers(Sentry::getUser()->getId(), $user_id, $msg);
+            $status = TBMsg::sendMessageBetweenTwoUsers(Auth::id(), $user_id, $msg);
         }
 
         return ($status) ? 1 : 0;
@@ -65,14 +64,14 @@ class ChatController extends CpanelController {
 
     public function getUnreadConversationMessages()
     {
-        $user_id = Input::get('user_id'); //between this user id
+        $user_id = request('user_id'); //between this user id
 
-        $conv_id = TBMsg::getConversationByTwoUsers($user_id, Sentry::getUser()->getId());
+        $conv_id = TBMsg::getConversationByTwoUsers($user_id, Auth::id());
 
         //Get the conversation id of two users
-        $result = TBMsg::getUnreadConversationMessages($conv_id, Sentry::getUser()->getId(), $user_id);
+        $result = TBMsg::getUnreadConversationMessages($conv_id, Auth::id(), $user_id);
 
-        TBMsg::markReadAllMessagesInConversation($conv_id, Sentry::getUser()->getId(), $user_id);
+        TBMsg::markReadAllMessagesInConversation($conv_id, Auth::id(), $user_id);
 
         return (!empty($result)) ? json_encode($result) : json_encode(array("error" => 'empty'));
     }
