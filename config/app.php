@@ -151,11 +151,13 @@ return [
 		/*
 		* add-ons
 		*/
-		Barryvdh\Debugbar\ServiceProvider::class,
-		Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-		Barryvdh\DomPDF\ServiceProvider::class,
-        'Artdarek\OAuth\OAuthServiceProvider',
-                'Chumper\Zipper\ZipperServiceProvider',
+                Barryvdh\Debugbar\ServiceProvider::class,
+                Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+                Barryvdh\DomPDF\ServiceProvider::class,
+                Artdarek\OAuth\OAuthServiceProvider::class,
+                Chumper\Zipper\ZipperServiceProvider::class,
+                Collective\Html\HtmlServiceProvider::class,
+                App\Providers\SsoAuthServiceProvider::class,
 	],
 
 	/*
@@ -203,10 +205,13 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 		//add-ons
-		'Debugbar' => 'Barryvdh\Debugbar\Facade',
-		'PDF' => 'Barryvdh\DomPDF\Facade',
-        'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
-                'Zipper' => 'Chumper\Zipper\Zipper'
+                'Debugbar' => Barryvdh\Debugbar\Facade::class,
+                'PDF' => Barryvdh\DomPDF\Facade::class,
+                'OAuth' => Artdarek\OAuth\Facade\OAuth::class,
+                'Zipper' => Chumper\Zipper\Zipper::class,
+                'Form' => Collective\Html\FormFacade::class,
+                'Html' => Collective\Html\HtmlFacade::class,
+                'Sentry' => App\Facades\Sentry::class,
         ],
 
 ];

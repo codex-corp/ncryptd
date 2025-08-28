@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use Sentry;
 
 class WelcomeController extends Controller {
 
@@ -32,7 +32,7 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-                if (Auth::check())
+                if (Sentry::check())
                 {
                         echo 'aaa';
                 }

@@ -165,6 +165,7 @@
         <div class="row">
             <!-- FORM -->
             <form id="project_encrypt" method="post" action="/ncryptd/bye">
+            @csrf
             <div id="rootwizard" class="col-md-12">
             <div class="form-wizard-steps">
                 <ul class="wizard-steps">

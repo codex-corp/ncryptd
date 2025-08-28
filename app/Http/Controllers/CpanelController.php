@@ -9,7 +9,7 @@
 
 use Redirect;
 use OAuth;
-use Illuminate\Support\Facades\Auth;
+use Sentry;
 
 class CpanelController extends Controller
 {
@@ -21,7 +21,7 @@ class CpanelController extends Controller
     public function __construct()
     {
         //$this->beforeFilter('csrf', array('on' => 'post'));
-        if (!Auth::check()){
+        if (!Sentry::check()){
             // Apply the auth filter
             $this->middleware('auth');
         }
@@ -31,9 +31,9 @@ class CpanelController extends Controller
     {
 
         // Find the user using the user id
-        //$user = Auth::user();
+        //$user = Sentry::getUser();
         // Log the user in
-        //Auth::login($user, false);
+        //Sentry::login($user, false);
 
         //$data['users'] = DB::table("users")->where('activated', 1)->count('id');
 

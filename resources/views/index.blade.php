@@ -128,14 +128,14 @@
 
             <li {{ (Request::is('/') ? ' class="active"' : '') }}><a href="{{{ URL::to('') }}}">Donate</a></li>
 
-            @if (auth()->check())
+            @if (Sentry::check())
 
-                @if ( auth()->user()->isSuperUser() )
+                @if ( Sentry::getUser()->isSuperUser() )
                 <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
                 @endif
 
                 <li><a class="drop" href="{{{ URL::to('/') }}}">
-                        {{ auth()->user()->first_name }}</a>
+                        {{ Sentry::getUser()->first_name }}</a>
                     <ul>
                         <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
                         <li><a href="{{{ URL::to('auth/logout') }}}">Signout</a></li>
@@ -413,7 +413,7 @@
 
                     <li {{ (Request::is('/') ? ' class="current"' : '') }}><a href="{{{ URL::to('') }}}">Donate</a></li>
 
-                    @if (auth()->check())
+                    @if (Sentry::check())
 
                     <li><a href="{{{ URL::to('auth/logout') }}}">Logout</a></li>
                     @else

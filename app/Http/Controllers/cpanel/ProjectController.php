@@ -17,7 +17,7 @@ use Session;
 use Redirect;
 use View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Sentry;
 
 class ProjectController extends CpanelController
 {
@@ -27,7 +27,7 @@ class ProjectController extends CpanelController
      */
     public function __construct()
     {
-        $this->beforeFilter('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -78,7 +78,7 @@ class ProjectController extends CpanelController
 
         $project = Projects::create(array(
             'title' => $request->get('project_title'),
-            'user_id' => Auth::id(),
+            'user_id' => Sentry::id(),
             'excluded' => (Session::has('excluded')) ? serialize(Session::get('excluded')) : false,
             'files' => implode(",", $request->get('files')),
             'obfus' => $obfus,
@@ -215,7 +215,7 @@ class ProjectController extends CpanelController
     function history()
     {
 
-        $data['projects'] = Projects::where('user_id', Auth::id())->get();
+        $data['projects'] = Projects::where('user_id', Sentry::id())->get();
 
         Debugbar::info($data);
 

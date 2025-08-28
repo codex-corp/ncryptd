@@ -309,7 +309,9 @@ var settings = $("#fileuploader").uploadFile({
 
         </div>
 
-<form id="project_encrypt" method="post" action="bye" />
+<form id="project_encrypt" method="post" action="bye">
+    @csrf
+</form>
 
 <div id="wizard" style="width: 60%; float: left">
     <h2>Obfuscation</h2>
