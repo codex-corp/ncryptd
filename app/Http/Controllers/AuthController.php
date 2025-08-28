@@ -12,6 +12,7 @@ use Redirect;
 use Input;
 use OAuth;
 use Validator;
+use Illuminate\Auth\AuthenticationException;
 
 class AuthController extends Controller {
 
@@ -62,32 +63,21 @@ class AuthController extends Controller {
 			return Redirect::route('signin')->withInput()->withErrors($validator);
 		}
 
-		try
-		{
-			// Try to log the user in
-            $user = Sentry::authenticate(Input::only('email', 'password'), Input::get('remember-me', 0));
+                try
+                {
+                        // Try to log the user in
+                        $user = Sentry::authenticate(Input::only('email', 'password'), Input::get('remember-me', 0));
 
-			// Get the page we were before
-			//$redirect = Session::get('loginRedirect', 'account');
+                        // Redirect to the users page
+                        return Redirect::route('signin')->with('success', Lang::get('auth/message.signin.success'));
+                }
+                catch (AuthenticationException $e)
+                {
+                        $this->messageBag->add('email', Lang::get('auth/message.account_not_found'));
+                }
 
-			// Unset the page we were before from the session
-			//Session::forget('loginRedirect');
-
-			// Redirect to the users page
-			return Redirect::route('signin')->with('success', Lang::get('auth/message.signin.success'));
-		}
-		catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
-		{
-			$this->messageBag->add('email', Lang::get('auth/message.account_not_found'));
-		}
-		catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e)
-		{
-			$this->messageBag->add('email', Lang::get('auth/message.account_not_activated'));
-		}
-
-		// Ooops.. something went wrong
-		return Redirect::route('signin')->withInput()->withErrors($this->messageBag);
-	}
+                return Redirect::route('signin')->withInput()->withErrors($this->messageBag);
+        }
 
 	/**
 	 * Logout page.
@@ -117,38 +107,29 @@ class AuthController extends Controller {
             $result = json_decode($linkedinService->request('/people/~:(id,first-name,last-name,headline,member-url-resources,picture-urls::(original),location,public-profile-url,email-address)?format=json'), true);
 
             if(!empty($token)){
-                try{
-                    // Find the user using the user id
-                    $user = Sentry::findUserByLogin($result['emailAddress']);
+                $user = Sentry::findUserByLogin($result['emailAddress']);
 
-                    //TODO: run logout function
+                if ($user) {
                     // Log the user in
                     Sentry::login($user, false);
 
                     return Redirect::route('home');
                 }
-                catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
-                {
-                    // Register the user
-                    $user = Sentry::register(array(
-                        ##check if has facebook token
-                        'activated' =>  1,
-                        'email'      => $result['emailAddress'],
-                        ##normal signup
-                        'password'   => Hash::make(uniqid(time())),
-                        'first_name' => $result['firstName'],
-                        'last_name' => $result['lastName'],
-                        'avatar'   => $result['pictureUrls']['values'][0],
-                        'country'   => $result['location']['name']
-                    ));
 
-                    $usergroup = Sentry::getGroupProvider()->findById(2);
-                    $user->addGroup($usergroup);
+                // Register the user
+                $user = Sentry::register(array(
+                    'activated' =>  1,
+                    'email'      => $result['emailAddress'],
+                    'password'   => uniqid(time()),
+                    'first_name' => $result['firstName'],
+                    'last_name' => $result['lastName'],
+                    'avatar'   => $result['pictureUrls']['values'][0],
+                    'country'   => $result['location']['name']
+                ));
 
-                    Sentry::login($user, false);
+                Sentry::login($user, false);
 
-                    return Redirect::route('account');
-                }
+                return Redirect::route('account');
             }
 
         }// if not ask for permission first
@@ -175,36 +156,27 @@ class AuthController extends Controller {
 
             if(!empty($token)){
 
-                try{
-                    // Find the user using the user id
-                    $user = Sentry::findUserByLogin($result['email']);
+                $user = Sentry::findUserByLogin($result['email']);
 
-                    // Log the user in
+                if ($user) {
                     Sentry::login($user, false);
 
                     return Redirect::route('home');
                 }
-                catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
-                {
-                    // Register the user
-                    $user = Sentry::register(array(
-                        ##check if has facebook token
-                        'activated' =>  1,
-                        'email'      => $result['email'],
-                        ##normal signup
-                        'password'   => Hash::make(uniqid(time())),
-                        'first_name' => $result['name'],
-                        'avatar'   => $result['avatar_url'],
-                        'country'   => (!empty($result['location'])) ? $result['location'] : false
-                    ));
 
-                    $usergroup = Sentry::getGroupProvider()->findById(2);
-                    $user->addGroup($usergroup);
+                // Register the user
+                $user = Sentry::register(array(
+                    'activated' =>  1,
+                    'email'      => $result['email'],
+                    'password'   => uniqid(time()),
+                    'first_name' => $result['name'],
+                    'avatar'   => $result['avatar_url'],
+                    'country'   => (!empty($result['location'])) ? $result['location'] : false
+                ));
 
-                    Sentry::login($user, false);
+                Sentry::login($user, false);
 
-                    return Redirect::route('account');
-                }
+                return Redirect::route('account');
 
             }
 
@@ -239,36 +211,27 @@ class AuthController extends Controller {
 
             if(!empty($token)){
 
-                try{
-                    // Find the user using the user id
-                    $user = Sentry::findUserByLogin($result['email']);
+                $user = Sentry::findUserByLogin($result['email']);
 
-                    // Log the user in
+                if ($user) {
                     Sentry::login($user, false);
 
                     return Redirect::route('home');
                 }
-                catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
-                {
-                    // Register the user
-                    $user = Sentry::register(array(
-                        ##check if has facebook token
-                        'activated' =>  1,
-                        'email'      => $result['email'],
-                        ##normal signup
-                        'password'   => Hash::make(uniqid(time())),
-                        'first_name' => $result['name'],
-                        'avatar'   => $result['picture'],
-                        'country'   => (!empty($result['location'])) ? $result['location'] : false
-                    ));
 
-                    $usergroup = Sentry::getGroupProvider()->findById(2);
-                    $user->addGroup($usergroup);
+                // Register the user
+                $user = Sentry::register(array(
+                    'activated' =>  1,
+                    'email'      => $result['email'],
+                    'password'   => uniqid(time()),
+                    'first_name' => $result['name'],
+                    'avatar'   => $result['picture'],
+                    'country'   => (!empty($result['location'])) ? $result['location'] : false
+                ));
 
-                    Sentry::login($user, false);
+                Sentry::login($user, false);
 
-                    return Redirect::route('account');
-                }
+                return Redirect::route('account');
 
             }
 

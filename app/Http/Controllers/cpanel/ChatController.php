@@ -14,8 +14,6 @@ use Input;
 use Tzookb\TBMsg\Facade\TBMsg;
 use Debugbar;
 use Sentry;
-use Cartalyst\Sentry\Users;
-use Cartalyst\Sentry\Groups;
 
 class ChatController extends CpanelController {
 
