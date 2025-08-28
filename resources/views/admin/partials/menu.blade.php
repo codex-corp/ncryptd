@@ -1,5 +1,5 @@
 <!-- BEGIN SELECTED LINK -->
-@if(!auth()->user()->isSuperUser() )
+@if(!Sentry::getUser()->isSuperUser() )
 <li class="start active">
     <a href="{{URL::to('admin/')}}">
         <i class="icon-custom-home"></i>
@@ -40,7 +40,7 @@
 -->
 <!-- END ONE LEVEL MENU -->
 
-@if(auth()->user()->isSuperUser() )
+@if(Sentry::getUser()->isSuperUser() )
 <!-- BEGIN ONE LEVEL MENU -->
 <li class="">
     <a href="javascript:;">

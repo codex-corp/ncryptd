@@ -12,8 +12,7 @@ Contact us ::
 	<h3>Contact us</h3>
 </div>
 <form method="post" action="">
-	<!-- CSRF Token -->
-	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+        @csrf
 
 	<fieldset>
 		<!-- Name -->

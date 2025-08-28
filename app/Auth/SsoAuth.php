@@ -19,6 +19,11 @@ class SsoAuth
         return Auth::user();
     }
 
+    public function id()
+    {
+        return Auth::id();
+    }
+
     public function authenticate(array $credentials, $remember = false)
     {
         if (!Auth::attempt($credentials, $remember)) {

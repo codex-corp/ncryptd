@@ -12,7 +12,7 @@ use CpanelController;
 
 use Tzookb\TBMsg\Facade\TBMsg;
 use Debugbar;
-use Illuminate\Support\Facades\Auth;
+use Sentry;
 
 class ChatController extends CpanelController {
 
@@ -35,12 +35,12 @@ class ChatController extends CpanelController {
         $user_id = request('user_id'); //between this user id
         $limit = request('limit'); //between this user id
 
-        $conv_id = TBMsg::getConversationByTwoUsers($user_id, Auth::id());
+        $conv_id = TBMsg::getConversationByTwoUsers($user_id, Sentry::id());
 
         //Get the conversation id of two users
         $result = TBMsg::getConversationMessages($conv_id, $user_id, $limit);
 
-        TBMsg::markReadAllMessagesInConversation($conv_id, Auth::id(), $user_id);
+        TBMsg::markReadAllMessagesInConversation($conv_id, Sentry::id(), $user_id);
 
         return (!empty($result)) ? json_encode($result) : json_encode(array("error" => 'empty'));
     }
@@ -56,7 +56,7 @@ class ChatController extends CpanelController {
              * $senderId, $receiverId, $content
              * return @boolean
              */
-            $status = TBMsg::sendMessageBetweenTwoUsers(Auth::id(), $user_id, $msg);
+            $status = TBMsg::sendMessageBetweenTwoUsers(Sentry::id(), $user_id, $msg);
         }
 
         return ($status) ? 1 : 0;
@@ -66,12 +66,12 @@ class ChatController extends CpanelController {
     {
         $user_id = request('user_id'); //between this user id
 
-        $conv_id = TBMsg::getConversationByTwoUsers($user_id, Auth::id());
+        $conv_id = TBMsg::getConversationByTwoUsers($user_id, Sentry::id());
 
         //Get the conversation id of two users
-        $result = TBMsg::getUnreadConversationMessages($conv_id, Auth::id(), $user_id);
+        $result = TBMsg::getUnreadConversationMessages($conv_id, Sentry::id(), $user_id);
 
-        TBMsg::markReadAllMessagesInConversation($conv_id, Auth::id(), $user_id);
+        TBMsg::markReadAllMessagesInConversation($conv_id, Sentry::id(), $user_id);
 
         return (!empty($result)) ? json_encode($result) : json_encode(array("error" => 'empty'));
     }

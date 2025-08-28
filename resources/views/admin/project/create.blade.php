@@ -245,7 +245,7 @@
                         </div>
 
                         <form action="" id="magictree" method="post" class="well well-large" style="display: none">
-
+                            @csrf
                         </form>
 
                         <div class="btn-group" data-toggle="buttons-radio" id="exclude_control_btn" style="display: none">
@@ -281,6 +281,7 @@
 <div class="row">
 <!-- FORM -->
 <form id="project_encrypt" method="post" action="{{URL::route('bye')}}">
+@csrf
 <div id="rootwizard" class="col-md-12">
 <div class="form-wizard-steps">
     <ul class="wizard-steps">

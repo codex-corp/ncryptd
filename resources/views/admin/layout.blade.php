@@ -77,10 +77,11 @@
         <div class="row ">
             <div class="col-md-8 col-md-offset-4 col-sm-6 col-sm-offset-4 col-xs-offset-2">
                 <div class="profile-wrapper">
-                    <img src="{{ auth()->user()->avatar }}" alt="" data-src="{{ auth()->user()->avatar }}" data-src-retina="{{ auth()->user()->avatar }}" width="69" height="69" />
+                    <img src="{{ Sentry::getUser()->avatar }}" alt="" data-src="{{ Sentry::getUser()->avatar }}" data-src-retina="{{ Sentry::getUser()->avatar }}" width="69" height="69" />
                 </div>
                 <form class="user-form" action="index.html" method="post">
-                    <h2 class="user">{{auth()->user()->first_name}}</h2>
+                    @csrf
+                    <h2 class="user">{{ Sentry::getUser()->first_name }}</h2>
                     <input type="password" placeholder="Password" >
                     <button id="unlock" type="submit" class="btn btn-primary "><i class="fa fa-unlock"></i></button>
                 </form>
@@ -171,7 +172,7 @@
                     <a href="#" class="dropdown-toggle" id="my-task-list" data-placement="bottom" data-content="" data-toggle="dropdown" data-original-title="Notifications">
                         <div class="user-details">
                             <div class="username">
-                                <span class="badge badge-important">0</span>&nbsp;{{ auth()->user()->first_name }}
+                                  <span class="badge badge-important">0</span>&nbsp;{{ Sentry::getUser()->first_name }}
                             </div>
                         </div>
                         <div class="iconset top-down-arrow"></div>
@@ -195,7 +196,7 @@
                     <!-- END NOTIFICATION CENTER -->
                     <!-- BEGIN PROFILE PICTURE -->
                     <div class="profile-pic">
-                        <img src="{{ auth()->user()->avatar }}" alt="" data-src="{{ auth()->user()->avatar }}" data-src-retina="{{ auth()->user()->avatar }}" width="35" height="35" />
+                          <img src="{{ Sentry::getUser()->avatar }}" alt="" data-src="{{ Sentry::getUser()->avatar }}" data-src-retina="{{ Sentry::getUser()->avatar }}" width="35" height="35" />
                     </div>
                     <!-- END PROFILE PICTURE -->
                 </div>
@@ -253,8 +254,8 @@
             <!-- BEGIN MINI-PROFILE -->
             <div class="user-info-wrapper">
                 <div class="profile-wrapper">
-                    @if( !empty(auth()->user()->avatar) )
-                    <img src="{{ auth()->user()->avatar }}" alt="" data-src="{{ auth()->user()->avatar }}" data-src-retina="{{ auth()->user()->avatar }}" width="69" height="69" />
+                    @if( !empty(Sentry::getUser()->avatar) )
+                    <img src="{{ Sentry::getUser()->avatar }}" alt="" data-src="{{ Sentry::getUser()->avatar }}" data-src-retina="{{ Sentry::getUser()->avatar }}" width="69" height="69" />
 
                     @else
                     <img src="{{asset('assets/admin/img/profiles/avatar.jpg')}}" alt="" data-src="{{asset('assets/admin/img/profiles/avatar.jpg')}}" data-src-retina="{{asset('assets/admin/img/profiles/avatar2x.jpg')}}" width="69" height="69" />
@@ -262,9 +263,9 @@
                 </div>
                 <div class="user-info">
                     <div class="greeting">Welcome</div>
-                    <div class="username">{{ \Illuminate\Support\Str::limit(auth()->user()->first_name,17) }}</div>
+                    <div class="username">{{ \Illuminate\Support\Str::limit(Sentry::getUser()->first_name,17) }}</div>
                     <div class="status">Status<a href="#"><div class="status-icon green"></div>Online</a></div>
-                    <!-- <div class="status">{{ auth()->user()->last_login }}</div>-->
+                    <!-- <div class="status">{{ Sentry::getUser()->last_login }}</div>-->
                 </div>
             </div>
             <!-- END MINI-PROFILE -->
@@ -364,7 +365,7 @@
 <!-- BEGIN CHAT -->
 <div id="sidr" class="chat-window-wrapper">
     <div id="main-chat-wrapper" >
-    <input type="hidden" id="user_id" value="{{auth()->id()}}">
+    <input type="hidden" id="user_id" value="{{ Sentry::id() }}">
     <div class="chat-window-wrapper fadeIn" id="chat-users" >
         <div class="chat-header">
             <div class="pull-left">
@@ -393,7 +394,7 @@
                 <div class="side-widget-content" >
 
                     {{--@foreach(\App\User::all() as $user)--}}
-                        {{--@if($user->id != auth()->id())--}}
+                        {{--@if($user->id != Sentry::id())--}}
                         {{--<div data-chat-user="{{$user->id}}" class="user-details-wrapper @if($user->isSuperUser()) active @endif" data-chat-status="online" data-chat-user-pic="{{$user->avatar}}" data-chat-user-pic-retina="{{$user->avatar}}" data-user-name="{{$user->first_name}}">--}}
                             {{--<div class="user-profile">--}}
                                 {{--<img src="{{$user->avatar}}"  alt="" data-src="{{$user->avatar}}" data-src-retina="{{$user->avatar}}" width="35" height="35">--}}

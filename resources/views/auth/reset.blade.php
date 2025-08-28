@@ -18,9 +18,9 @@
 						</div>
 					@endif
 
-					<form class="form-horizontal" role="form" method="POST" action="/password/reset">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<input type="hidden" name="token" value="{{ $token }}">
+                                        <form class="form-horizontal" role="form" method="POST" action="/password/reset">
+                                                @csrf
+                                                <input type="hidden" name="token" value="{{ $token }}">
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">E-Mail Address</label>
